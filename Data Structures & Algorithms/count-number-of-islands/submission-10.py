@@ -1,0 +1,29 @@
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        count = 0
+        rows = len(grid)
+        cols = len(grid[0])
+        visited = set()
+
+        def bfs(row, col):
+            queue = collections.deque()
+            queue.append((row, col))
+            while len(queue) > 0:
+                row, col = queue.popleft()
+                
+                directions = [[1,0], [0,1], [-1,0], [0,-1]]
+                for [dr, dc] in directions:
+                    if (row in range(rows) and 
+                        col in range(cols) and
+                        grid[row][col] == "1" and
+                        (row, col) not in visited):
+                        queue.append((row+dr, col+dc))
+                visited.add((row, col))
+
+        for row in range(rows):
+            for col in range(cols):
+                item = grid[row][col]
+                if item == "1" and (row, col) not in visited:
+                    bfs(row, col)
+                    count += 1
+        return count
